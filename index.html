@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fluffly Fly - Your Dream Journey Awaits!</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="script.js" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&family=Merriweather:wght@300;400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #ffffff url('https://static.vecteezy.com/system/resources/previews/007/016/697/original/abstract-wave-texture-background-line-style-vector.jpg') 
+  no-repeat center center fixed;
+  background-size: cover;
+  color: #333;
+}
+
+/* Overlay con menor opacidad */
+.overlay {
+  background: linear-gradient(to bottom right, rgba(255,255,255,0.8), rgba(240,240,240,0.8));
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 40px;
+}
+
+/* Elementos decorativos en el fondo */
+.decorative {
+  position: absolute;
+  z-index: -1;
+  opacity: 0.2;
+}
+.decorative.circle {
+  width: 150px;
+  height: 150px;
+  background: #6dd5ed;
+  border-radius: 50%;
+  top: 10%;
+  left: -50px;
+}
+.decorative.triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid #2193b0;
+  bottom: 15%;
+  right: -30px;
+}
+.decorative.square {
+  width: 100px;
+  height: 100px;
+  background: #f5a623;
+  bottom: 5%;
+  left: 10%;
+  transform: rotate(45deg);
+}
+
+/* Encabezado */
+header {
+  background: linear-gradient(to right, #6dd5ed, #2193b0);
+  padding: 30px 20px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Logo a la izquierda en header, sobrepuesto */
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.logo-container img {
+  width: 300px;
+  height: auto;
+  margin-top: -50px;
+}
+
+/* Título y subtítulo centrados */
+.header-title {  
+  font-size: 3.5em;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.header-subtitle {
+  font-size: 1.8em;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+/* Descripción con nueva tipografía */
+.description {
+  text-align: center;
+  font-family: 'Merriweather', serif;
+  font-size: 1.2em;
+  font-weight: 400;
+  color: #444;
+  line-height: 1.8;
+}
+
+/* Sección de planes */
+.plans-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding: 40px 60px;
+  max-width: 1200px;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 40px;
+}
+.plan-card {
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 30%;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  overflow: hidden;
+  position: relative;
+}
+.plan-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s;
+}
+.plan-card:hover img {
+  transform: scale(1.05);
+}
+.plan-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Detalles del plan con efecto glassmorphism y fade-in */
+.plan-details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(5px);
+  padding: 0 15px;
+  margin-top: 15px;
+  border-radius: 10px;
+}
+.plan-details.open {
+  max-height: 300px;
+  opacity: 1;
+  padding: 15px;
+}
+.plan-details ul {
+  list-style: none;
+}
+.plan-details li {
+  margin-bottom: 10px;
+}
+
+/* Botón de reserva */
+.reserve-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #2193b0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.reserve-btn:hover {
+  background-color: #6dd5ed;
+}
+
+/* Ícono de cierre */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  display: none;
+}
+.plan-details.open ~ .close-btn {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 20px 10px;
+  }
+  /* Ajustes en el logo para móviles: se elimina el margin negativo y se baja */
+  .logo-container {
+    position: static;
+    text-align: center;
+    margin-top: 40px; /* Se aumenta para bajar el logo */
+    margin-bottom: 20px;
+  }
+  .logo-container img {
+    width: 180px;
+    margin-top: 0; /* Se elimina el margin negativo */
+  }
+  .header-title {
+    font-size: 2.5em;
+  }
+  .header-subtitle {
+    font-size: 1.4em;
+  }
+  .description {
+    font-size: 1em;
+  }
+  .plan-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .plans-container {
+    padding: 20px;
+  }
+  /* Aumentamos la altura máxima de los detalles para evitar que se corte el botón */
+  .plan-details.open {
+    max-height: 400px;
+  }
+  .decorative {
+    display: none;
+  }
+}
+  </style>
+</head>
+<body>
+  <!-- Elementos decorativos en el fondo -->
+  <div class="decorative circle"></div>
+  <div class="decorative triangle"></div>
+  <div class="decorative square"></div>
+
+  <div class="overlay">
+    <header>
+      <div class="logo-container">
+        <img src="https://i.imgur.com/5fqdf9B.png" alt="Fluffly Fly Logo" />
+      </div>
+      <h1 class="header-title">Fluffy Fly</h1>
+      <h2 class="header-subtitle">Roll like a boss, no squeak, no loss</h2>
+    </header>
+    
+    <!-- Descripción fuera del encabezado -->
+    <div class="description">
+      We are a travel agency that will help you with your amazing adventures.
+    </div>
+    
+    <section class="plans-container">
+      <!-- Family Plan -->
+      <div class="plan-card" onclick="toggleDetails('family-details')">
+        <img src="https://www.andbeyond.com/wp-content/uploads/sites/5/Family-travel.jpg" alt="Family Travel" />
+        <h3>Family Plan: Cultural and Fun Adventure</h3>
+        <p>Explore top European cities with your loved ones!</p>
+        <span class="close-btn" onclick="toggleDetails('family-details', event)">✖</span>
+        <div class="plan-details" id="family-details">
+          <ul>
+            <li><strong>Destinations:</strong> Rome, Barcelona, Vienna, Prague</li>
+            <li><strong>Duration:</strong> 7 days / 6 nights</li>
+            <li><strong>Activities:</strong> Museums, theme parks, picnics</li>
+            <li><strong>Accommodation:</strong> Family-friendly apartments</li>
+            <li><strong>Price:</strong> From $1,200 USD per person</li>
+          </ul>
+          <button class="reserve-btn">Reserve Now</button>
+        </div>
+      </div>
+      <!-- Couple Plan -->
+      <div class="plan-card" onclick="toggleDetails('couple-details')">
+        <img src="https://www.airfarewatchdog.com/blog/wp-content/uploads/sites/26/2020/02/Couple-swing-sunset-beach-silhouette-romantic.png" alt="Couple Travel" />
+        <h3>Couple Plan: Romantic Getaway</h3>
+        <p>Experience dreamy destinations with your partner.</p>
+        <span class="close-btn" onclick="toggleDetails('couple-details', event)">✖</span>
+        <div class="plan-details" id="couple-details">
+          <ul>
+            <li><strong>Destinations:</strong> Paris, Venice, Santorini, Budapest</li>
+            <li><strong>Duration:</strong> 7 days / 6 nights</li>
+            <li><strong>Activities:</strong> Romantic dinners, sunset walks, spas</li>
+            <li><strong>Accommodation:</strong> Boutique hotels</li>
+            <li><strong>Price:</strong> From $1,400 USD per person</li>
+          </ul>
+          <button class="reserve-btn">Reserve Now</button>
+        </div>
+      </div>
+      <!-- Friends Plan -->
+      <div class="plan-card" onclick="toggleDetails('friends-details')">
+        <img src="https://media.istockphoto.com/id/858917054/es/foto/amigos-feliz-viaje-expedici%C3%B3n-concepto.jpg?s=612x612&w=0&k=20&c=uJtvCXOlyeq8BvkG09h8GfQxnJy-dOdHPk95jEbnans=" alt="Friends Travel" />
+        <h3>Friends Plan: Adventure and Fun</h3>
+        <p>Unforgettable experiences with your best friends.</p>
+        <span class="close-btn" onclick="toggleDetails('friends-details', event)">✖</span>
+        <div class="plan-details" id="friends-details">
+          <ul>
+            <li><strong>Destinations:</strong> Berlin, Amsterdam, Lisbon, Barcelona</li>
+            <li><strong>Duration:</strong> 7 days / 6 nights</li>
+            <li><strong>Activities:</strong> Nightlife, cultural tours, adventure sports</li>
+            <li><strong>Accommodation:</strong> Private hostels or Airbnb</li>
+            <li><strong>Price:</strong> From $1,000 USD per person</li>
+          </ul>
+          <button class="reserve-btn">Reserve Now</button>
+        </div>
+      </div>
+    </section>
+    <script>
+      // Función para abrir y cerrar los detalles de cada plan
+      function toggleDetails(id, event) {
+        if (event) {
+          event.stopPropagation();
+        }
+        const details = document.getElementById(id);
+        details.classList.toggle('open');
+      }
+    </script>
+  </div>
+</body>
+</html>
